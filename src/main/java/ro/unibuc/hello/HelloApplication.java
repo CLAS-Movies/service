@@ -56,30 +56,30 @@ public class HelloApplication {
 				"a cinematic experience can be",9);
 		ReviewEntity review10 = new ReviewEntity("A great movie by actor re-inacting the life of Amadeus(Thanks Tom)!!!!!",10);
 
-		ArrayList<ReviewEntity> reviews1 = new ArrayList<ReviewEntity>(){{ add(review1);}};
-		ArrayList<ReviewEntity> reviews2 = new ArrayList<ReviewEntity>(){{add(review2);
+		ArrayList<ReviewEntity> reviews1 = new ArrayList<>(){{ add(review1);}};
+		ArrayList<ReviewEntity> reviews2 = new ArrayList<>(){{add(review2);
 			add(review3);add(review9);add(review10);}};
-		ArrayList<ReviewEntity> reviews3 = new ArrayList<ReviewEntity>(){{add(review5);
+		ArrayList<ReviewEntity> reviews3 = new ArrayList<>(){{add(review5);
 			add(review8);}};
-		ArrayList<ReviewEntity> reviews4 = new ArrayList<ReviewEntity>(){{add(review6);add(review7);
+		ArrayList<ReviewEntity> reviews4 = new ArrayList<>(){{add(review6);add(review7);
 			add(review4);}};
-		ArrayList<ReviewEntity> reviews5= new ArrayList<ReviewEntity>(){{}};
+		ArrayList<ReviewEntity> reviews5= new ArrayList<>(){{}};
 
 
-		ArrayList<MovieEntity> movieWatchList1 = new ArrayList<MovieEntity>(){{ add(movie1);}};
-		ArrayList<MovieEntity> movieWatchList2 = new ArrayList<MovieEntity>(){{ add(movie1);add(movie2);add(movie3);
+		ArrayList<MovieEntity> movieWatchList1 = new ArrayList<>(){{ add(movie1);}};
+		ArrayList<MovieEntity> movieWatchList2 = new ArrayList<>(){{ add(movie1);add(movie2);add(movie3);
 			add(movie4);add(movie5);}};
-		ArrayList<MovieEntity> movieWatchList3 = new ArrayList<MovieEntity>(){{ add(movie2);add(movie3)}};
-		ArrayList<MovieEntity> movieWatchList4 = new ArrayList<MovieEntity>(){{ add(movie1);}};
-		ArrayList<MovieEntity> movieWatchList5 = new ArrayList<MovieEntity>(){{}};
+		ArrayList<MovieEntity> movieWatchList3 = new ArrayList<>(){{ add(movie2);add(movie3)}};
+		ArrayList<MovieEntity> movieWatchList4 = new ArrayList<>(){{ add(movie1);}};
+		ArrayList<MovieEntity> movieWatchList5 = new ArrayList<>(){{}};
 
-		ArrayList<UserEntity> userWatchList1 = new ArrayList<UserEntity>(){{ add(user1)}};
-		ArrayList<UserEntity> userWatchList2 = new ArrayList<UserEntity>(){{ add(user1);add(user2);add(user3);add(user4);
+		ArrayList<UserEntity> userWatchList1 = new ArrayList<>(){{ add(user1)}};
+		ArrayList<UserEntity> userWatchList2 = new ArrayList<>(){{ add(user1);add(user2);add(user3);add(user4);
 			add(user5);}};
-		ArrayList<UserEntity> userWatchList3 = new ArrayList<UserEntity>(){{ add(user1);add(user2);add(user3)}};
-		ArrayList<UserEntity> userWatchList4 = new ArrayList<UserEntity>(){{ add(user3);add(user4);
+		ArrayList<UserEntity> userWatchList3 = new ArrayList<>(){{ add(user1);add(user2);add(user3)}};
+		ArrayList<UserEntity> userWatchList4 = new ArrayList<>(){{ add(user3);add(user4);
 			add(user5);}};
-		ArrayList<UserEntity> userWatchList5 = new ArrayList<UserEntity>(){{}};
+		ArrayList<UserEntity> userWatchList5 = new ArrayList<>(){{}};
 
 		movieRepository.deleteAll();
 		reviewRepository.deleteAll();
