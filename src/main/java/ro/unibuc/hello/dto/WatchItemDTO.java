@@ -1,19 +1,20 @@
 package ro.unibuc.hello.dto;
 
-import org.springframework.data.mongodb.core.mapping.DBRef;
-import ro.unibuc.hello.data.MovieEntity;
-import ro.unibuc.hello.data.UserEntity;
+import org.springframework.data.annotation.Id;
 import ro.unibuc.hello.data.WatchItemEntity;
 
 import java.util.Objects;
 
 public class WatchItemDTO {
+    @Id
+    private String id;
     private MovieDTO movie;
     private UserDTO user;
 
     public WatchItemDTO(WatchItemEntity watchItem) {
-        this.movie = new MovieDTO(watchItem.getId().getMovie());
-        this.user = new UserDTO(watchItem.getId().getUser());
+        this.id = watchItem.getId();
+        this.movie = new MovieDTO(watchItem.getCompositeKey().getMovie());
+        this.user = new UserDTO(watchItem.getCompositeKey().getUser());
     }
 
     public WatchItemDTO() {
@@ -35,23 +36,32 @@ public class WatchItemDTO {
         this.user = user;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         WatchItemDTO that = (WatchItemDTO) o;
-        return movie.equals(that.movie) && user.equals(that.user);
+        return id.equals(that.id) && movie.equals(that.movie) && user.equals(that.user);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(movie, user);
+        return Objects.hash(id, movie, user);
     }
 
     @Override
     public String toString() {
         return "WatchItemDTO{" +
-                "movie=" + movie +
+                "id='" + id + '\'' +
+                ", movie=" + movie +
                 ", user=" + user +
                 '}';
     }

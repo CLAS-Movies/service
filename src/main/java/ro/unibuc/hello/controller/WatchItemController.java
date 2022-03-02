@@ -31,19 +31,13 @@ public class WatchItemController {
 
     @GetMapping("/watchItem/get")
     @ResponseBody
-    public WatchItemDTO getWatchItem(@RequestParam(name="movieId") String movieId, @RequestParam(name="userId") String userId) {
-        MovieEntity movie = movieRepository.findById(String.valueOf(new ObjectId(movieId))).orElse(null);
-        UserEntity user = userRepository.findById(String.valueOf(new ObjectId(userId))).orElse(null);
-        System.out.println("data " + movieId + " " + userId);
-        if(movie != null && user != null) {
-            System.out.println("in " + movie.getId() + " " +  user.getId());
-            WatchItemEntity watchItem = watchItemRepository.findById(String.valueOf(new WatchItemEntity.CompositeKey(movie, user))).orElse(null);
+    public WatchItemDTO getWatchItem(@RequestParam(name="id") String id) {
+        if(id != null) {
+            WatchItemEntity watchItem = watchItemRepository.findById(id).orElse(null);
             if(watchItem != null) {
-                System.out.println("save");
                 return new WatchItemDTO(watchItem);
             }
         }
-        System.out.println("out");
         return null;
     }
 
@@ -61,24 +55,22 @@ public class WatchItemController {
     @PutMapping("/watchItem/update")
     @ResponseBody
     public WatchItemDTO updateWatchItem(
-            @RequestParam(name="movieId") String movieId, @RequestParam(name="userId") String userId,
+            @RequestParam(name="id") String id,
             @RequestParam(name="newMovieId", required = false) String newMovieId, @RequestParam(name="newUserId", required = false) String newUserId
                                         ) {
         WatchItemEntity watchItem = null;
-        MovieEntity movie = movieRepository.findById(String.valueOf(new ObjectId(movieId))).orElse(null);
-        UserEntity user = userRepository.findById(String.valueOf(new ObjectId(userId))).orElse(null);
-        if(movie != null && user != null)
-            watchItem = watchItemRepository.findById(String.valueOf(new WatchItemEntity.CompositeKey(movie, user))).orElse(null);
+        if(id != null)
+            watchItem = watchItemRepository.findById(id).orElse(null);
         if(watchItem != null) {
             if(newMovieId != null) {
                 MovieEntity newMovie = movieRepository.findById(String.valueOf(new ObjectId(newMovieId))).orElse(null);
                 if(newMovie != null)
-                    watchItem.setId(new WatchItemEntity.CompositeKey(newMovie, watchItem.getId().getUser()));
+                    watchItem.setCompositeKey(new WatchItemEntity.CompositeKey(newMovie, watchItem.getCompositeKey().getUser()));
             }
             if(newUserId != null) {
                 UserEntity newUser = userRepository.findById(String.valueOf(new ObjectId(newUserId))).orElse(null);
                 if(newUser != null)
-                    watchItem.setId(new WatchItemEntity.CompositeKey(watchItem.getId().getMovie(), newUser));
+                    watchItem.setCompositeKey(new WatchItemEntity.CompositeKey(watchItem.getCompositeKey().getMovie(), newUser));
             }
             return new WatchItemDTO(watchItemRepository.save(watchItem));
         } else
@@ -87,10 +79,7 @@ public class WatchItemController {
 
     @DeleteMapping("/watchItem/delete")
     @ResponseBody
-    public void deleteWatchItem(@RequestParam(name="movieId") String movieId, @RequestParam(name="userId") String userId) {
-        MovieEntity movie = movieRepository.findById(String.valueOf(new ObjectId(movieId))).orElse(null);
-        UserEntity user = userRepository.findById(String.valueOf(new ObjectId(userId))).orElse(null);
-        if(movie != null && user != null)
-            watchItemRepository.deleteById(String.valueOf(new WatchItemEntity.CompositeKey(movie, user)));
+    public void deleteWatchItem(@RequestParam(name="id") String id) {
+            watchItemRepository.deleteById(id);
     }
 }
