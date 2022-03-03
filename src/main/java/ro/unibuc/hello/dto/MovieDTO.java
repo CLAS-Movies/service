@@ -2,8 +2,6 @@ package ro.unibuc.hello.dto;
 
 import org.springframework.data.annotation.Id;
 import ro.unibuc.hello.data.MovieEntity;
-
-import java.util.ArrayList;
 import java.util.Objects;
 
 public class MovieDTO {
@@ -14,11 +12,10 @@ public class MovieDTO {
     private String writer;
     private Integer year;
     private Integer duration;
-    private ArrayList<ReviewDTO> reviews;
-    private ArrayList<WatchItemDTO> watchItems;
 
     public MovieDTO() {
     }
+
 
     public MovieDTO(MovieEntity movie){
         this.id = movie.getId();
@@ -27,12 +24,6 @@ public class MovieDTO {
         this.writer = movie.getWriter();
         this.year = movie.getYear();
         this.duration = movie.getDuration();
-        ArrayList<ReviewDTO> reviewDTOs = new ArrayList<>();
-        movie.getReviews().forEach(reviewEntity -> reviewDTOs.add(new ReviewDTO(reviewEntity)));
-        this.reviews = reviewDTOs;
-        ArrayList<WatchItemDTO> watchItemDTOs = new ArrayList<>();
-        movie.getWatchItems().forEach(watchItemEntity -> watchItemDTOs.add(new WatchItemDTO(watchItemEntity)));
-        this.watchItems = watchItemDTOs;
     }
 
     public String getId() {
@@ -83,33 +74,17 @@ public class MovieDTO {
         this.duration = duration;
     }
 
-    public ArrayList<ReviewDTO> getReviews() {
-        return reviews;
-    }
-
-    public void setReviews(ArrayList<ReviewDTO> reviews) {
-        this.reviews = reviews;
-    }
-
-    public ArrayList<WatchItemDTO> getWatchItems() {
-        return watchItems;
-    }
-
-    public void setWatchItems(ArrayList<WatchItemDTO> watchItems) {
-        this.watchItems = watchItems;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         MovieDTO movieDTO = (MovieDTO) o;
-        return id.equals(movieDTO.id) && title.equals(movieDTO.title) && director.equals(movieDTO.director) && writer.equals(movieDTO.writer) && year.equals(movieDTO.year) && duration.equals(movieDTO.duration) && Objects.equals(reviews, movieDTO.reviews) && Objects.equals(watchItems, movieDTO.watchItems);
+        return id.equals(movieDTO.id) && title.equals(movieDTO.title) && director.equals(movieDTO.director) && writer.equals(movieDTO.writer) && year.equals(movieDTO.year) && duration.equals(movieDTO.duration);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, director, writer, year, duration, reviews, watchItems);
+        return Objects.hash(id, title, director, writer, year, duration);
     }
 
     @Override
@@ -121,8 +96,6 @@ public class MovieDTO {
                 ", writer='" + writer + '\'' +
                 ", year=" + year +
                 ", duration=" + duration +
-                ", reviews=" + reviews +
-                ", watchItems=" + watchItems +
                 '}';
     }
 }

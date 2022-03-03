@@ -1,7 +1,6 @@
 package ro.unibuc.hello.controller;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.bson.types.ObjectId;
@@ -42,33 +41,65 @@ public class UserController {
 
     @PostMapping("/user/insert")
     @ResponseBody
-    public UserEntity insertUser(
+    public UserDTO insertUser(
             @RequestParam(name="name") String name, @RequestParam(name="email") String email,
-            @RequestParam(name="reviewIds", required = false) String reviewIds, @RequestParam(name="watchItemId", required = false) String watchItemId
+            @RequestParam(name="reviewIds") List<String> reviewIds, @RequestParam(name="watchItemIds") List<String> watchItemIds
     ) {
         UserEntity user = new UserEntity(name, email);
-        List<String> reviewIdList = Arrays.asList(reviewIds.split(","));
-        List<String> watchItemIdList = Arrays.asList(watchItemId.split(","));
         ArrayList<ReviewEntity> reviewEntities = new ArrayList<>();
         ArrayList<WatchItemEntity> watchItemEntities = new ArrayList<>();
-        reviewIdList.forEach(id -> reviewEntities.add(reviewRepository.findById(String.valueOf(new ObjectId(id))).orElse(null)));
-        watchItemIdList.forEach(id -> watchItemEntities.add(watchItemRepository.findById(String.valueOf(new ObjectId(id))).orElse(null)));
+
+        if(!reviewIds.isEmpty())
+            reviewIds.forEach(id -> reviewEntities.add(reviewRepository.findById(String.valueOf(new ObjectId(id))).orElse(null)));
+        else
+            user.setReviews(null);
+
+        if(!watchItemIds.isEmpty())
+            watchItemIds.forEach(id -> watchItemEntities.add(watchItemRepository.findById(String.valueOf(new ObjectId(id))).orElse(null)));
+        else
+            user.setWatchItems(null);
+
         if(!reviewEntities.isEmpty())
             user.setReviews(reviewEntities);
+
         if(!watchItemEntities.isEmpty())
             user.setWatchItems(watchItemEntities);
-        return userRepository.save(user);
+
+        return new UserDTO(userRepository.save(user));
     }
 
     @PutMapping("/user/update")
     @ResponseBody
-    public UserDTO updateUser(@RequestParam(name="id") String id, @RequestParam(name="name", required = false) String name, @RequestParam(name="email", required = false) String email) {
+    public UserDTO updateUser(
+            @RequestParam(name="id") String id, @RequestParam(name="name", required = false) String name, @RequestParam(name="email", required = false) String email,
+            @RequestParam(name="reviewIds") List<String> reviewIds, @RequestParam(name="watchItemIds") List<String> watchItemIds
+    ) {
         UserEntity user = userRepository.findById(String.valueOf(new ObjectId(id))).orElse(null);
         if(user != null) {
             if(name != null)
                 user.setName(name);
+
             if(email != null)
                 user.setEmail(email);
+
+            if(!reviewIds.isEmpty()) {
+                ArrayList<ReviewEntity> reviewEntities = new ArrayList<>();
+                reviewIds.forEach(reviewId -> reviewEntities.add(reviewRepository.findById(String.valueOf(new ObjectId(reviewId))).orElse(null)));
+                if(!reviewEntities.isEmpty())
+                    user.setReviews(reviewEntities);
+            }
+            else
+                user.setReviews(null);
+
+            if(!watchItemIds.isEmpty()) {
+                ArrayList<WatchItemEntity> watchItemEntities = new ArrayList<>();
+                watchItemIds.forEach(watchItemId -> watchItemEntities.add(watchItemRepository.findById(String.valueOf(new ObjectId(watchItemId))).orElse(null)));
+                if(!watchItemEntities.isEmpty())
+                    user.setWatchItems(watchItemEntities);
+            }
+            else
+                user.setWatchItems(null);
+
             return new UserDTO(userRepository.save(user));
         } else
             return  null;
