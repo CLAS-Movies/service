@@ -56,9 +56,9 @@ public class WatchItemEntity {
     }
 
     public static class CompositeKey implements Serializable {
-        @DBRef()
+        @DBRef(lazy = true)
         private MovieEntity movie;
-        @DBRef()
+        @DBRef(lazy = true)
         private UserEntity user;
 
         public CompositeKey(MovieEntity movie, UserEntity user) {
