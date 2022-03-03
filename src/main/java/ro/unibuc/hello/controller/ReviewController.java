@@ -49,7 +49,7 @@ public class ReviewController {
                                      @RequestParam(name="userId") String userId) {
         ReviewEntity review =new ReviewEntity(comment,score);
 
-        if(movieId != null) {
+        if(!movieId.isEmpty()) {
             MovieEntity movie = movieRepository.findById(String.valueOf(new ObjectId(movieId))).orElse(null);
 
             review.setMovie(movie);
@@ -57,7 +57,7 @@ public class ReviewController {
         else
             return null;
 
-        if(userId != null) {
+        if(!userId.isEmpty()) {
             UserEntity user = userRepository.findById(String.valueOf(new ObjectId(userId))).orElse(null);
 
             review.setUser(user);
@@ -82,14 +82,15 @@ public class ReviewController {
                 review.setComment(comment);
             if (score != null)
                 review.setScore(score);
-            if(movieId != null) {
+
+            if(!movieId.isEmpty()) {
                 MovieEntity movie = movieRepository.findById(String.valueOf(new ObjectId(movieId))).orElse(null);
 
                 if(movie != null)
                     review.setMovie(movie);
             }
 
-            if(userId != null) {
+            if(!userId.isEmpty()) {
                 UserEntity user= userRepository.findById(String.valueOf(new ObjectId(userId))).orElse(null);
 
                 if(user != null)
