@@ -1,44 +1,28 @@
 package ro.unibuc.hello.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import ro.unibuc.hello.data.*;
 import ro.unibuc.hello.dto.ReviewDTO;
+import ro.unibuc.hello.service.ReviewService;
 
 @RestController
 public class ReviewController {
 
-    @Autowired
-    private ReviewRepository reviewRepository;
-
-    @Autowired
-    private MovieRepository movieRepository;
-
-    @Autowired
-    private UserRepository userRepository;
+@Autowired
+ private ReviewService reviewService;
 
     @GetMapping("/review/getAll")
     @ResponseBody
     public List<ReviewDTO> getReviews() {
-        ArrayList<ReviewDTO> reviewDTOs = new ArrayList<>();
-
-        reviewRepository.findAll().forEach(reviewEntity -> reviewDTOs.add(new ReviewDTO(reviewEntity)));
-        return reviewDTOs;
+        return reviewService.getReviews();
     }
 
     @GetMapping("/review/get")
     @ResponseBody
     public ReviewDTO getReview(@RequestParam (name="id") String id) {
-        ReviewEntity review = reviewRepository.findById(String.valueOf(new ObjectId(id))).orElse(null);
-
-        if(review != null)
-            return new ReviewDTO(review);
-        else
-            return null;
+        return reviewService.getReview(id);
     }
 
     @PostMapping("/review/insert")
@@ -47,24 +31,7 @@ public class ReviewController {
                                      @RequestParam(name="score") Integer score,
                                      @RequestParam(name="movieId") String movieId,
                                      @RequestParam(name="userId") String userId) {
-        ReviewEntity review =new ReviewEntity(comment,score);
-
-        if(!movieId.isEmpty()) {
-            MovieEntity movie = movieRepository.findById(String.valueOf(new ObjectId(movieId))).orElse(null);
-
-            review.setMovie(movie);
-        }
-        else
-            return null;
-
-        if(!userId.isEmpty()) {
-            UserEntity user = userRepository.findById(String.valueOf(new ObjectId(userId))).orElse(null);
-
-            review.setUser(user);
-        }
-        else
-            return null;
-        return new ReviewDTO(reviewRepository.save(review));
+        return reviewService.insertReview(comment, score, movieId, userId);
     }
 
     @PutMapping("/review/update")
@@ -75,36 +42,12 @@ public class ReviewController {
                                   @RequestParam(name="movieId",required = false) String movieId,
                                   @RequestParam(name="userId", required = false) String userId)
     {
-        ReviewEntity review=reviewRepository.findById(String.valueOf(new ObjectId(id))).orElse(null);
-
-        if(review!=null) {
-            if (comment != null)
-                review.setComment(comment);
-            if (score != null)
-                review.setScore(score);
-
-            if(!movieId.isEmpty()) {
-                MovieEntity movie = movieRepository.findById(String.valueOf(new ObjectId(movieId))).orElse(null);
-
-                if(movie != null)
-                    review.setMovie(movie);
-            }
-
-            if(!userId.isEmpty()) {
-                UserEntity user= userRepository.findById(String.valueOf(new ObjectId(userId))).orElse(null);
-
-                if(user != null)
-                    review.setUser(user);
-            }
-            return new ReviewDTO(reviewRepository.save(review));
-        }
-        else
-            return null;
+        return reviewService.updateReview(id, comment, score, movieId, userId);
     }
 
     @DeleteMapping("/review/delete")
     @ResponseBody
-    public void deleteReview(@RequestParam(name="id") String id){
-        reviewRepository.deleteById(String.valueOf(new ObjectId(id)));
+    public String deleteReview(@RequestParam(name="id") String id){
+        return reviewService.deleteReview(id);
     }
 }
