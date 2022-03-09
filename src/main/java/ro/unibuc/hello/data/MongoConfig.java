@@ -32,8 +32,13 @@ public class MongoConfig extends AbstractMongoClientConfiguration {
         return MongoClients.create(mongoClientSettings);
     }
 
-    @Override
-    public Collection getMappingBasePackages() {
-        return Collections.singleton("ro.unibuc.hello.data");
-    }
+//    @Override
+//    public Collection getMappingBasePackages() {
+//        return Collections.singleton("ro.unibuc.hello.data");
+//    }
 }
+
+
+
+
+
