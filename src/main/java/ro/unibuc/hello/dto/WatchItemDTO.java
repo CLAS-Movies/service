@@ -49,7 +49,7 @@ public class WatchItemDTO {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         WatchItemDTO that = (WatchItemDTO) o;
-        return id.equals(that.id) && movie.equals(that.movie) && user.equals(that.user);
+        return Objects.equals(id, that.id) && Objects.equals(movie, that.movie) && Objects.equals(user, that.user);
     }
 
     @Override
