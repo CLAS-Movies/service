@@ -77,8 +77,8 @@ public class UserEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        UserEntity that = (UserEntity) o;
-        return id.equals(that.id) && Objects.equals(name, that.name) && Objects.equals(email, that.email);
+        UserEntity user = (UserEntity) o;
+        return Objects.equals(id, user.id) && Objects.equals(name, user.name) && Objects.equals(email, user.email) && Objects.equals(reviews, user.reviews) && Objects.equals(watchItems, user.watchItems);
     }
 
     @Override
