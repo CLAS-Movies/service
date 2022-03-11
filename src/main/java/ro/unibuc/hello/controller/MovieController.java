@@ -55,8 +55,8 @@ public class MovieController {
 
     @DeleteMapping("/movie/delete")
     @ResponseBody
-    public String deleteReview(@RequestParam(name="id") String id) {
-        return movieService.deleteReview(id);
+    public String deleteMovie(@RequestParam(name="id") String id) {
+        return movieService.deleteMovie(id);
 
     }
 }

@@ -107,19 +107,6 @@ public class MovieEntity {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        MovieEntity that = (MovieEntity) o;
-        return id.equals(that.id) && Objects.equals(title, that.title) && Objects.equals(director, that.director) && Objects.equals(writer, that.writer) && Objects.equals(year, that.year) && Objects.equals(duration, that.duration);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, title, director, writer, year, duration);
-    }
-
-    @Override
     public String toString() {
         return "MovieEntity{" +
                 "id='" + id + '\'' +
@@ -128,5 +115,18 @@ public class MovieEntity {
                 ", writer='" + writer + '\'' +
                 ", year=" + year +
                 ", duration=" + duration + " minutes}";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MovieEntity that = (MovieEntity) o;
+        return Objects.equals(id, that.id) && Objects.equals(title, that.title) && Objects.equals(director, that.director) && Objects.equals(writer, that.writer) && Objects.equals(year, that.year) && Objects.equals(duration, that.duration) && Objects.equals(reviews, that.reviews) && Objects.equals(watchItems, that.watchItems);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, director, writer, year, duration, reviews, watchItems);
     }
 }

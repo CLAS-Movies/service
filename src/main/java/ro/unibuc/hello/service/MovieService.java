@@ -111,7 +111,7 @@ public class MovieService {
         }
         else return null;
     }
-    public String deleteReview(String id){
+    public String deleteMovie(String id){
         movieRepository.deleteById(String.valueOf(new ObjectId(id)));
 
         return "Movie with id " + id + " was deleted!";
