@@ -14,6 +14,9 @@ public class WatchItemEntity {
 
     private CompositeKey compositeKey;
 
+    public WatchItemEntity() {
+    }
+
     public WatchItemEntity(CompositeKey compositeKey) {
         this.compositeKey = compositeKey;
     }
@@ -39,7 +42,7 @@ public class WatchItemEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         WatchItemEntity watchItem = (WatchItemEntity) o;
-        return id.equals(watchItem.id) && compositeKey.equals(watchItem.compositeKey);
+        return Objects.equals(id, watchItem.id) && Objects.equals(compositeKey, watchItem.compositeKey);
     }
 
     @Override
@@ -90,7 +93,7 @@ public class WatchItemEntity {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
             CompositeKey that = (CompositeKey) o;
-            return movie.equals(that.movie) && user.equals(that.user);
+            return Objects.equals(movie, that.movie) && Objects.equals(user, that.user);
         }
 
         @Override
