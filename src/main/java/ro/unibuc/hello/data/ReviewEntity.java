@@ -73,24 +73,24 @@ public class ReviewEntity {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ReviewEntity that = (ReviewEntity) o;
-        return id.equals(that.id) && Objects.equals(comment, that.comment) && Objects.equals(score, that.score);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, comment, score);
-    }
-
-    @Override
     public String toString() {
         return "ReviewEntity{" +
                 "id='" + id + '\'' +
                 ", comment='" + comment + '\'' +
                 ", score=" + score +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ReviewEntity that = (ReviewEntity) o;
+        return Objects.equals(id, that.id) && Objects.equals(comment, that.comment) && Objects.equals(score, that.score) && Objects.equals(movie, that.movie) && Objects.equals(user, that.user);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, comment, score, movie, user);
     }
 }
