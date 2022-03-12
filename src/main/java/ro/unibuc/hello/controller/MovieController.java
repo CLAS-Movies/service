@@ -43,11 +43,11 @@ public class MovieController {
     @PutMapping("/movie/update")
     @ResponseBody
     public MovieDTO updateMovie(@RequestParam(name="id") String id,
-                                @RequestParam(name="title",required = false) String title,
-                                @RequestParam(name="director",required = false) String director,
-                                @RequestParam(name="writer",required = false) String writer,
-                                @RequestParam(name="year",required = false) Integer year,
-                                @RequestParam(name="duration",required = false) Integer duration,
+                                @RequestParam(name="title") String title,
+                                @RequestParam(name="director") String director,
+                                @RequestParam(name="writer") String writer,
+                                @RequestParam(name="year") Integer year,
+                                @RequestParam(name="duration") Integer duration,
                                 @RequestParam(name="reviewIds") List<String> reviewIds,
                                 @RequestParam(name="watchItemIds") List<String> watchItemIds) {
         return movieService.updateMovie(id, title, director, writer, year, duration, reviewIds, watchItemIds);

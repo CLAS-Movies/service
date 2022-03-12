@@ -40,6 +40,9 @@ class MovieServiceTest {
     ArrayList<MovieEntity>movieEntities;
     String deleteResponse;
 
+    List<String> reviewIds;
+    List<String> watchItemIds;
+
     @BeforeEach
     void setUp(){
         movie = new MovieEntity("Dune","Denis Villeneuve","Jon Spaihts",2021,155, null,null);
@@ -47,7 +50,7 @@ class MovieServiceTest {
                 movie.getYear(),movie.getDuration(),movie.getReviews(),movie.getWatchItems());
         movieWithoutId = new MovieEntity(movie.getTitle(),movie.getDirector(),movie.getWriter(),
                 movie.getYear(),movie.getDuration(),movie.getReviews(),movie.getWatchItems());
-        movie.setId("62287c931be61542fed8cca1");
+        movie.setId("333333333333333333333333");
         updatedMovie.setId(movie.getId());
         deleteResponse = "Movie with id " + movie.getId() + " was deleted!";
 
@@ -59,6 +62,16 @@ class MovieServiceTest {
 
         movieDTOs.add(movieDTO);
         movieEntities.add(movie);
+
+
+        reviewIds = movie.getReviews()!= null ? movie.getReviews()
+                .stream()
+                .map(ReviewEntity::getId)
+                .collect(Collectors.toList()) : new ArrayList<>();
+        watchItemIds = movie.getWatchItems()!= null ? movie.getWatchItems()
+                .stream()
+                .map(WatchItemEntity::getId)
+                .collect(Collectors.toList()) : new ArrayList<>();
     }
 
 
@@ -82,31 +95,16 @@ class MovieServiceTest {
 
     @Test
     void insertMovie() {
-        List<String> reviewIds = movie.getReviews()!= null ? movie.getReviews()
-                .stream()
-                .map(ReviewEntity::getId)
-                .collect(Collectors.toList()) : new ArrayList<>();
-        List<String> watchItemIds = movie.getWatchItems()!= null ? movie.getWatchItems()
-                .stream()
-                .map(WatchItemEntity::getId)
-                .collect(Collectors.toList()) : new ArrayList<>();
         when(movieRepository.save(movieWithoutId)).thenReturn(movie);
+
         MovieDTO result = movieService.insertMovie(movie.getTitle(),movie.getDirector(),movie.getWriter(),movie.getYear(),movie.getDuration(),
         reviewIds,watchItemIds);
+
         Assertions.assertEquals(result,movieDTO);
     }
 
     @Test
     void updateMovie() {
-        List<String> reviewIds = movie.getReviews()!= null ? movie.getReviews()
-                .stream()
-                .map(ReviewEntity::getId)
-                .collect(Collectors.toList()):new ArrayList<>();
-        List<String> watchItemIds = movie.getReviews()!= null ? movie.getWatchItems()
-                .stream()
-                .map(WatchItemEntity::getId)
-                .collect(Collectors.toList()):new ArrayList<>();
-
         when(movieRepository.findById(String.valueOf(new ObjectId(movie.getId())))).thenReturn(Optional.ofNullable(movie));
         when(movieRepository.save(updatedMovie)).thenReturn(updatedMovie);
 

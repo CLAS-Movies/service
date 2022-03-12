@@ -1,6 +1,7 @@
 package ro.unibuc.hello.service;
 
 import org.bson.types.ObjectId;
+import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,6 +27,12 @@ class ReviewServiceTest {
     @Mock
     ReviewRepository reviewRepository;
 
+    @Mock
+    MovieRepository movieRepository;
+
+    @Mock
+    UserRepository userRepository;
+
     @InjectMocks
     ReviewService reviewService = new ReviewService();
 
@@ -43,8 +50,8 @@ class ReviewServiceTest {
     @BeforeEach
     void setUp(){
         movie = new MovieEntity("Dune", "Denis Villeneuve", "Jon Spaihts", 2021, 155, null, null);
-        user =  new UserEntity("Miclaus", "miclaus@mymail.com", null, null);
         movie.setId("111111111111111111111111");
+        user =  new UserEntity("Miclaus", "miclaus@mymail.com", null, null);
         user.setId("222222222222222222222222");
         review = new ReviewEntity("comment",7,movie, user);
         updatedReview = new ReviewEntity("UpdatedComment", 8, review.getMovie(), review.getUser());
@@ -85,21 +92,36 @@ class ReviewServiceTest {
 
     @Test
     void insertReview() {
-        MovieEntity movie = review.getMovie()!= null ? review.getMovie() : new MovieEntity();
-        String movieId = movie.getId()!= null ? movie.getId() : new String();
-        UserEntity user = review.getUser()!= null ? review.getUser() : new UserEntity();
-        String userId = user.getId()!= null ? user.getId() : new String();
+        when(movieRepository.findById(String.valueOf(new ObjectId(movie.getId())))).thenReturn(Optional.ofNullable(movie));
+        when(userRepository.findById(String.valueOf(new ObjectId(user.getId())))).thenReturn(Optional.ofNullable(user));
         when(reviewRepository.save(reviewWithoutId)).thenReturn(review);
-        ReviewDTO result = reviewService.insertReview(review.getComment(), review.getScore(), movieId, userId);
-        System.out.println(result);
+
+        ReviewDTO result = reviewService.insertReview(review.getComment(), review.getScore(), movie.getId(), user.getId());
+
         Assertions.assertEquals(result,reviewDTO);
     }
 
     @Test
     void updateReview() {
+        when(reviewRepository.findById(String.valueOf(new ObjectId(review.getId())))).thenReturn(Optional.ofNullable(review));
+        when(movieRepository.findById(String.valueOf(new ObjectId(movie.getId())))).thenReturn(Optional.ofNullable(movie));
+        when(userRepository.findById(String.valueOf(new ObjectId(user.getId())))).thenReturn(Optional.ofNullable(user));
+        when(reviewRepository.save(updatedReview)).thenReturn(updatedReview);
+
+        ReviewDTO result = reviewService.updateReview(updatedReview.getId(), updatedReview.getComment(),updatedReview.getScore(), movie.getId(),updatedReview.getUser().getId());
+
+        Assertions.assertEquals(result, updatedReviewDTO);
+
+
+
+
     }
 
     @Test
     void deleteReview() {
+      String result = reviewService.deleteReview(review.getId());
+
+      Assertions.assertEquals(result, deleteResponse);
+
     }
 }
