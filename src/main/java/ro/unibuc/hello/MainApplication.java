@@ -35,12 +35,15 @@ public class MainApplication {
 		UserEntity user3 = new UserEntity("Robert Smith", "robertsmith@yahoo.com");
 		UserEntity user4 = new UserEntity("Cassidy Beth", "cassy@gmail.com");
 		UserEntity user5 = new UserEntity("Thomas Miller", "tmiller@yahoo.com");
+		UserEntity userTest = new UserEntity("TestName", "TestEmail@yahoo.com");
+
 
 		MovieEntity movie1 = new MovieEntity("Avatar", "James Cameron", "James Cameron", 2009, 162);
 		MovieEntity movie2 = new MovieEntity("Amadeus","Milos Forman", "Peter Shaffer", 1984,160);
 		MovieEntity movie3 = new MovieEntity("Birdemic:Shock and Terror","James Nguyen", "James Nguyen", 2010, 105);
 		MovieEntity movie4 = new MovieEntity("Meet the Parents","Jay Roach","Greg Glienna" ,2000,108);
 		MovieEntity movie5 = new MovieEntity("The Way Back","Gavin O'Connor","Brad Ingelsby",2020,108);
+		MovieEntity movieTest = new MovieEntity("TestTitle","TestDirector","TestWriter",2022,100);
 
 		ReviewEntity review1 = new ReviewEntity("Great movie", 8);
 		ReviewEntity review2 = new ReviewEntity("Amadeus is a film of high accolade...this film is grand on every level and I'm glad to" +
@@ -55,6 +58,7 @@ public class MainApplication {
 		ReviewEntity review9 = new ReviewEntity("The film's awesome achievemnts will remind audiences how rich and challenging " +
 				"a cinematic experience can be",9);
 		ReviewEntity review10 = new ReviewEntity("A great movie by actor re-inacting the life of Amadeus(Thanks Tom)!!!!!",10);
+		ReviewEntity reviewTest = new ReviewEntity("TestComment",10);
 
 		WatchItemEntity watchItem1 = null;
 		WatchItemEntity watchItem2 = null;
@@ -68,34 +72,43 @@ public class MainApplication {
 		WatchItemEntity watchItem10 = null;
 		WatchItemEntity watchItem11 = null;
 		WatchItemEntity watchItem12 = null;
+		WatchItemEntity watchItemTest = null;
 
 		movieRepository.deleteAll();
 		reviewRepository.deleteAll();
 		userRepository.deleteAll();
 		watchItemRepository.deleteAll();
 
-		user1 = userRepository.save(new UserEntity(user1.getName(), user1.getEmail()));
-		user2 = userRepository.save(new UserEntity(user2.getName(), user2.getEmail()));
-		user3 = userRepository.save(new UserEntity(user3.getName(), user3.getEmail()));
-		user4 = userRepository.save(new UserEntity(user4.getName(), user4.getEmail()));
-		user5 = userRepository.save(new UserEntity(user5.getName(), user5.getEmail()));
+		user1 = userRepository.save(user1);
+		user2 = userRepository.save(user2);
+		user3 = userRepository.save(user3);
+		user4 = userRepository.save(user4);
+		user5 = userRepository.save(user5);
+		userTest.setId("222222222222222222222221");
+		userTest = userRepository.save(userTest);
 
-		movie1 = movieRepository.save(new MovieEntity(movie1.getTitle(), movie1.getDirector(), movie1.getWriter(), movie1.getYear(), movie1.getDuration()));
-		movie2 = movieRepository.save(new MovieEntity(movie2.getTitle(), movie2.getDirector(), movie2.getWriter(), movie2.getYear(), movie2.getDuration()));
-		movie3 = movieRepository.save(new MovieEntity(movie3.getTitle(), movie3.getDirector(), movie3.getWriter(), movie3.getYear(), movie3.getDuration()));
-		movie4 = movieRepository.save(new MovieEntity(movie4.getTitle(), movie4.getDirector(), movie4.getWriter(), movie4.getYear(), movie4.getDuration()));
-		movie5 = movieRepository.save(new MovieEntity(movie5.getTitle(), movie5.getDirector(), movie5.getWriter(), movie5.getYear(), movie5.getDuration()));
+		movie1 = movieRepository.save(movie1);
+		movie2 = movieRepository.save(movie2);
+		movie3 = movieRepository.save(movie3);
+		movie4 = movieRepository.save(movie4);
+		movie5 = movieRepository.save(movie5);
+		movieTest.setId("222222222222222222222222");
+		movieTest = movieRepository.save(movieTest);
 
-		review1=reviewRepository.save(new ReviewEntity(review1.getComment(), review1.getScore()));
-		review2=reviewRepository.save(new ReviewEntity(review2.getComment(), review2.getScore()));
-		review3=reviewRepository.save(new ReviewEntity(review3.getComment(), review3.getScore()));
-		review4=reviewRepository.save(new ReviewEntity(review4.getComment(), review4.getScore()));
-		review5=reviewRepository.save(new ReviewEntity(review5.getComment(), review5.getScore()));
-		review6=reviewRepository.save(new ReviewEntity(review6.getComment(), review6.getScore()));
-		review7=reviewRepository.save(new ReviewEntity(review7.getComment(), review7.getScore()));
-		review8=reviewRepository.save(new ReviewEntity(review8.getComment(), review8.getScore()));
-		review9=reviewRepository.save(new ReviewEntity(review9.getComment(), review9.getScore()));
-		review10=reviewRepository.save(new ReviewEntity(review10.getComment(), review10.getScore()));
+
+		review1 = reviewRepository.save(review1);
+		review2 = reviewRepository.save(review2);
+		review3 = reviewRepository.save(review3);
+		review4 = reviewRepository.save(review4);
+		review5 = reviewRepository.save(review5);
+		review6 = reviewRepository.save(review6);
+		review7 = reviewRepository.save(review7);
+		review8 = reviewRepository.save(review8);
+		review9 = reviewRepository.save(review9);
+		review10 = reviewRepository.save(review10);
+		reviewTest.setId("222222222222222222222223");
+		reviewTest = reviewRepository.save(reviewTest);
+
 
 		if (user1 != null && movie1 != null)
 			watchItem1 = watchItemRepository.save(new WatchItemEntity(new WatchItemEntity.CompositeKey(movie1, user1)));
@@ -121,6 +134,12 @@ public class MainApplication {
 			watchItem11 = watchItemRepository.save(new WatchItemEntity(new WatchItemEntity.CompositeKey(movie2, user5)));
 		if (user5 != null && movie4 != null)
 			watchItem12 = watchItemRepository.save(new WatchItemEntity(new WatchItemEntity.CompositeKey(movie4, user5)));
+		if (userTest != null && movieTest != null) {
+			watchItemTest = new WatchItemEntity(new WatchItemEntity.CompositeKey(movieTest, userTest));
+			watchItemTest.setId("222222222222222222222224");
+			watchItemTest = watchItemRepository.save(watchItemTest);
+		}
+
 
 		final WatchItemEntity finalWatchItem1 = watchItem1;
 		final WatchItemEntity finalWatchItem2 = watchItem2;
@@ -134,6 +153,7 @@ public class MainApplication {
 		final WatchItemEntity finalWatchItem10 = watchItem10;
 		final WatchItemEntity finalWatchItem11 = watchItem11;
 		final WatchItemEntity finalWatchItem12 = watchItem12;
+		final WatchItemEntity finalWatchItemTest = watchItemTest;
 
 		ArrayList<WatchItemEntity> watchItemEntityArrayListUser1 = new ArrayList<>(){{
 			add(finalWatchItem1);
@@ -156,6 +176,9 @@ public class MainApplication {
 		ArrayList<WatchItemEntity> watchItemEntityArrayListUser5 = new ArrayList<>(){{
 			add(finalWatchItem11);
 			add(finalWatchItem12);
+		}};
+		ArrayList<WatchItemEntity> watchItemEntityArrayListUserTest = new ArrayList<>(){{
+			add(finalWatchItemTest);
 		}};
 
 		ArrayList<WatchItemEntity> watchItemEntityArrayListMovie1 = new ArrayList<>(){{
@@ -180,30 +203,37 @@ public class MainApplication {
 		}};
 		ArrayList<WatchItemEntity> watchItemEntityArrayListMovie5 = new ArrayList<>(){{
 		}};
+		ArrayList<WatchItemEntity> watchItemEntityArrayListMovieTest = new ArrayList<>(){{
+			add(finalWatchItemTest);
+		}};
 
 		user1.setWatchItems(watchItemEntityArrayListUser1);
 		user2.setWatchItems(watchItemEntityArrayListUser2);
 		user3.setWatchItems(watchItemEntityArrayListUser3);
 		user4.setWatchItems(watchItemEntityArrayListUser4);
 		user5.setWatchItems(watchItemEntityArrayListUser5);
+		userTest.setWatchItems(watchItemEntityArrayListUserTest);
 
 		movie1.setWatchItems(watchItemEntityArrayListMovie1);
 		movie2.setWatchItems(watchItemEntityArrayListMovie2);
 		movie3.setWatchItems(watchItemEntityArrayListMovie3);
 		movie4.setWatchItems(watchItemEntityArrayListMovie4);
 		movie5.setWatchItems(watchItemEntityArrayListMovie5);
+		movieTest.setWatchItems(watchItemEntityArrayListMovieTest);
 
 		userRepository.save(user1);
 		userRepository.save(user2);
 		userRepository.save(user3);
 		userRepository.save(user4);
 		userRepository.save(user5);
+		userRepository.save(userTest);
 
 		movieRepository.save(movie1);
 		movieRepository.save(movie2);
 		movieRepository.save(movie3);
 		movieRepository.save(movie4);
 		movieRepository.save(movie5);
+		movieRepository.save(movieTest);
 
 		final ReviewEntity finalReview1 = review1;
 		final ReviewEntity finalReview2 = review2;
@@ -215,6 +245,7 @@ public class MainApplication {
 		final ReviewEntity finalReview8 = review8;
 		final ReviewEntity finalReview9 = review9;
 		final ReviewEntity finalReview10 = review10;
+		final ReviewEntity finalReviewTest = reviewTest;
 
 		ArrayList<ReviewEntity> reviewEntityArrayListMovie1 =new ArrayList<>(){{
 			add(finalReview1);
@@ -236,12 +267,17 @@ public class MainApplication {
 		}};
 		ArrayList<ReviewEntity> reviewEntityArrayListMovie5 =new ArrayList<>(){{
 		}};
+		ArrayList<ReviewEntity> reviewEntityArrayListMovieTest =new ArrayList<>(){{
+			add(finalReviewTest);
+		}};
+
 
 		movie1.setReviews(reviewEntityArrayListMovie1);
 		movie2.setReviews(reviewEntityArrayListMovie2);
 		movie3.setReviews(reviewEntityArrayListMovie3);
 		movie4.setReviews(reviewEntityArrayListMovie4);
 		movie5.setReviews(reviewEntityArrayListMovie5);
+		movieTest.setReviews(reviewEntityArrayListMovieTest);
 
 		review1.setMovie(movie1);
 		review2.setMovie(movie2);
@@ -253,12 +289,14 @@ public class MainApplication {
 		review8.setMovie(movie3);
 		review9.setMovie(movie2);
 		review10.setMovie(movie2);
+		reviewTest.setMovie(movieTest);
 
 		movieRepository.save(movie1);
 		movieRepository.save(movie2);
 		movieRepository.save(movie3);
 		movieRepository.save(movie4);
 		movieRepository.save(movie5);
+		movieRepository.save(movieTest);
 
 		review1 = reviewRepository.save(review1);
 		review2 = reviewRepository.save(review2);
@@ -270,6 +308,7 @@ public class MainApplication {
 		review8 = reviewRepository.save(review8);
 		review9 = reviewRepository.save(review9);
 		review10 = reviewRepository.save(review10);
+		reviewTest = reviewRepository.save(reviewTest);
 
 		final ReviewEntity finalReview11 = review1;
 		final ReviewEntity finalReview12 = review2;
@@ -281,6 +320,7 @@ public class MainApplication {
 		final ReviewEntity finalReview18 = review8;
 		final ReviewEntity finalReview19 = review9;
 		final ReviewEntity finalReview20 = review10;
+		final ReviewEntity finalReviewTest2 = reviewTest;
 
 		ArrayList<ReviewEntity> reviewEntityArrayListUser1=new ArrayList<>(){{
 			add(finalReview11);
@@ -303,12 +343,16 @@ public class MainApplication {
 			add(finalReview19);
 			add(finalReview20);
 		}};
+		ArrayList<ReviewEntity> reviewEntityArrayListUserTest=new ArrayList<>(){{
+			add(finalReviewTest2);
+		}};
 
 		user1.setReviews(reviewEntityArrayListUser1);
 		user2.setReviews(reviewEntityArrayListUser2);
 		user3.setReviews(reviewEntityArrayListUser3);
 		user4.setReviews(reviewEntityArrayListUser4);
 		user5.setReviews(reviewEntityArrayListUser5);
+		userTest.setReviews(reviewEntityArrayListUserTest);
 
 		review1.setUser(user1);
 		review2.setUser(user1);
@@ -320,12 +364,14 @@ public class MainApplication {
 		review8.setUser(user4);
 		review9.setUser(user5);
 		review10.setUser(user5);
+		reviewTest.setUser(userTest);
 
 		userRepository.save(user1);
 		userRepository.save(user2);
 		userRepository.save(user3);
 		userRepository.save(user4);
 		userRepository.save(user5);
+		userRepository.save(userTest);
 
 		reviewRepository.save(review1);
 		reviewRepository.save(review2);
@@ -337,7 +383,7 @@ public class MainApplication {
 		reviewRepository.save(review8);
 		reviewRepository.save(review9);
 		reviewRepository.save(review10);
-
+		reviewRepository.save(reviewTest);
 	}
 
 }
