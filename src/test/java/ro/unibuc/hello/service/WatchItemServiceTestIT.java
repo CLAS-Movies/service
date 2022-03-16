@@ -30,11 +30,12 @@ public class WatchItemServiceTestIT {
     @Test
     void getWatchItems() {
         List<WatchItemDTO> result = watchItemService.getWatchItems();
+        WatchItemDTO watchItemDTO = result.get(12);
 
         assertEquals(result.size(), 13);
-        assertEquals(result.get(12).getId(), "222222222222222222222224");
-        assertEquals(result.get(12).getMovie().getId(), "222222222222222222222222");
-        assertEquals(result.get(12).getUser().getId(), "222222222222222222222221");
+        assertEquals(watchItemDTO.getId(), "222222222222222222222224");
+        assertEquals(watchItemDTO.getMovie().getId(), "222222222222222222222222");
+        assertEquals(watchItemDTO.getUser().getId(), "222222222222222222222221");
     }
 }
 
