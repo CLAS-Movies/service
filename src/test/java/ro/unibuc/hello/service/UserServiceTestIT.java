@@ -22,12 +22,15 @@ public class UserServiceTestIT {
 
     UserEntity user;
     String deleteResponse;
+    String id;
 
 
     @BeforeEach
     void setUp() {
+        id = "222222222222222222222227";
         user = new UserEntity("Miclaus", "miclaus@mymail.com", null, null);
-        deleteResponse = "User with id 222222222222222222222221 was deleted!";
+        user.setId(id);
+        deleteResponse = "User with id " + id + " was deleted!";
     }
 
     @Test
@@ -40,7 +43,8 @@ public class UserServiceTestIT {
 
     @Test
     void deleteUser() {
-        String result = userService.deleteUser("222222222222222222222221");
+        userRepository.save(user);
+        String result = userService.deleteUser(id);
 
         Assertions.assertEquals(result, deleteResponse);
     }
