@@ -3,12 +3,12 @@ services:
   hello:
     image: clasmovies/hello-img:${IMAGE_TAG}
     ports:
-      - 8081:8080
+      - 8085:8080
     environment:
       ENVIRONMENT_NAME: local
       MONGODB_CONECTION_URL: mongodb://root:example@mongo:27017/
     restart: always
-  mongo:
+  mongo: # mongo document DB
     image: mongo:5.0.2
     restart: always
     ports:
@@ -16,11 +16,11 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
-  mongo-admin-ui:
+  mongo-admin-ui: # mongoDB admin UI
     image: mongo-express
     restart: always
     ports:
-      - 8090:8090
+      - 8095:8090
     environment:
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       ME_CONFIG_MONGODB_ADMINPASSWORD: example
