@@ -49,20 +49,20 @@ public class MovieService {
         ArrayList<ReviewEntity> reviewEntities = new ArrayList<>();
         ArrayList<WatchItemEntity> watchItemEntities = new ArrayList<>();
 
-        if(!reviewIds.isEmpty())
+        if(!reviewIds.isEmpty() && reviewIds != null)
             reviewIds.forEach(id -> reviewEntities.add(reviewRepository.findById(String.valueOf(new ObjectId(id))).orElse(null)));
         else
             movie.setReviews(null);
 
-        if(!watchItemIds.isEmpty())
+        if(!watchItemIds.isEmpty() && watchItemIds != null)
             watchItemIds.forEach(id -> watchItemEntities.add(watchItemRepository.findById(String.valueOf(new ObjectId(id))).orElse(null)));
         else
             movie.setWatchItems(null);
 
-        if(!reviewEntities.isEmpty())
+        if(!reviewEntities.isEmpty() && reviewEntities != null)
             movie.setReviews(reviewEntities);
 
-        if(!watchItemEntities.isEmpty())
+        if(!watchItemEntities.isEmpty() && watchItemEntities != null)
             movie.setWatchItems(watchItemEntities);
         return new MovieDTO(movieRepository.save(movie));
     }
@@ -90,7 +90,7 @@ public class MovieService {
             if(duration!=null)
                 movie.setDuration(duration);
 
-            if(!reviewIds.isEmpty()) {
+            if(!reviewIds.isEmpty() && reviewIds != null) {
                 ArrayList<ReviewEntity> reviewEntities = new ArrayList<>();
                 reviewIds.forEach(reviewId -> reviewEntities.add(reviewRepository.findById(String.valueOf(new ObjectId(reviewId))).orElse(null)));
                 if(!reviewEntities.isEmpty())
@@ -99,7 +99,7 @@ public class MovieService {
             else
                 movie.setReviews(null);
 
-            if(!watchItemIds.isEmpty()) {
+            if(!watchItemIds.isEmpty() && watchItemIds != null) {
                 ArrayList<WatchItemEntity> watchItemEntities = new ArrayList<>();
                 watchItemIds.forEach(watchItemId -> watchItemEntities.add(watchItemRepository.findById(String.valueOf(new ObjectId(watchItemId))).orElse(null)));
                 if(!watchItemEntities.isEmpty())

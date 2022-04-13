@@ -40,20 +40,20 @@ public class UserService {
         ArrayList<ReviewEntity> reviewEntities = new ArrayList<>();
         ArrayList<WatchItemEntity> watchItemEntities = new ArrayList<>();
 
-        if(!reviewIds.isEmpty())
+        if(!reviewIds.isEmpty() && reviewIds != null)
             reviewIds.forEach(id -> reviewEntities.add(reviewRepository.findById(String.valueOf(new ObjectId(id))).orElse(null)));
         else
             user.setReviews(null);
 
-        if(!watchItemIds.isEmpty())
+        if(!watchItemIds.isEmpty() && watchItemIds != null)
             watchItemIds.forEach(id -> watchItemEntities.add(watchItemRepository.findById(String.valueOf(new ObjectId(id))).orElse(null)));
         else
             user.setWatchItems(null);
 
-        if(!reviewEntities.isEmpty())
+        if(!reviewEntities.isEmpty() && reviewEntities != null)
             user.setReviews(reviewEntities);
 
-        if(!watchItemEntities.isEmpty())
+        if(!watchItemEntities.isEmpty() && watchItemEntities != null)
             user.setWatchItems(watchItemEntities);
 
         return new UserDTO(userRepository.save(user));
@@ -68,7 +68,7 @@ public class UserService {
             if(email != null)
                 user.setEmail(email);
 
-            if(!reviewIds.isEmpty()) {
+            if(!reviewIds.isEmpty() && reviewIds != null) {
                 ArrayList<ReviewEntity> reviewEntities = new ArrayList<>();
                 reviewIds.forEach(reviewId -> reviewEntities.add(reviewRepository.findById(String.valueOf(new ObjectId(reviewId))).orElse(null)));
                 if(!reviewEntities.isEmpty())
@@ -77,7 +77,7 @@ public class UserService {
             else
                 user.setReviews(null);
 
-            if(!watchItemIds.isEmpty()) {
+            if(!watchItemIds.isEmpty() && watchItemIds != null) {
                 ArrayList<WatchItemEntity> watchItemEntities = new ArrayList<>();
                 watchItemIds.forEach(watchItemId -> watchItemEntities.add(watchItemRepository.findById(String.valueOf(new ObjectId(watchItemId))).orElse(null)));
                 if(!watchItemEntities.isEmpty())
@@ -95,6 +95,30 @@ public class UserService {
         userRepository.deleteById(String.valueOf(new ObjectId(id)));
 
         return "User with id " + id + " was deleted!";
+    }
+
+    public UserDTO buggedInsertUser(String name, String email, List<String> reviewIds, List<String> watchItemIds) {
+        UserEntity user = new UserEntity(name, email);
+        ArrayList<ReviewEntity> reviewEntities = new ArrayList<>();
+        ArrayList<WatchItemEntity> watchItemEntities = new ArrayList<>();
+
+        if(!reviewIds.isEmpty())
+            reviewIds.forEach(id -> reviewEntities.add(reviewRepository.findById(String.valueOf(new ObjectId(id))).orElse(null)));
+        else
+            user.setReviews(null);
+
+        if(!watchItemIds.isEmpty())
+            watchItemIds.forEach(id -> watchItemEntities.add(watchItemRepository.findById(String.valueOf(new ObjectId(id))).orElse(null)));
+        else
+            user.setWatchItems(null);
+
+        if(!reviewEntities.isEmpty())
+            user.setReviews(reviewEntities);
+
+        if(!watchItemEntities.isEmpty())
+            user.setWatchItems(watchItemEntities);
+
+        return new UserDTO(userRepository.save(user));
     }
 
 }
