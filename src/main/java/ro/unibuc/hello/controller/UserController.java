@@ -28,7 +28,7 @@ public class UserController {
 
     @GetMapping("/user/get")
     @ResponseBody
-    @Timed(value = "user.getUser.time", description = "Time taken to return a user")
+    @Timed(value = "user.getUser.time", description = "Time taken to return an user")
     @Counted(value = "user.getUser.count", description = "Times a user was returned")
     public UserDTO getUser(@RequestParam(name="id") String id) {
         return userService.getUser(id);
@@ -36,7 +36,7 @@ public class UserController {
 
     @PostMapping("/user/insert")
     @ResponseBody
-    @Timed(value = "user.insertUser.time", description = "Time taken to insert a insert")
+    @Timed(value = "user.insertUser.time", description = "Time taken to insert an insert")
     @Counted(value = "user.insertUser.count", description = "Times a insert was inserted")
     public UserDTO insertUser(
             @RequestParam(name="name") String name, @RequestParam(name="email") String email,
@@ -47,7 +47,7 @@ public class UserController {
 
     @PutMapping("/user/update")
     @ResponseBody
-    @Timed(value = "user.updateUser.time", description = "Time taken to update a user")
+    @Timed(value = "user.updateUser.time", description = "Time taken to update an user")
     @Counted(value = "user.updateUser.count", description = "Times a user was updated")
     public UserDTO updateUser(
             @RequestParam(name="id") String id, @RequestParam(name="name", required = false) String name, @RequestParam(name="email", required = false) String email,
@@ -58,10 +58,21 @@ public class UserController {
 
     @DeleteMapping("/user/delete")
     @ResponseBody
-    @Timed(value = "user.deleteUser.time", description = "Time taken to delete a user")
+    @Timed(value = "user.deleteUser.time", description = "Time taken to delete an user")
     @Counted(value = "user.deleteUser.count", description = "Times a user was deleted")
     public String deleteUser(@RequestParam(name="id") String id) {
         return userService.deleteUser(id);
+    }
+
+    @PostMapping("/user/bugGenerator")
+    @ResponseBody
+    @Timed(value = "user.bugGenerator.time", description = "Time taken to bug an insert")
+    @Counted(value = "user.bugGenerator.count", description = "Times a bug was inserted")
+    public UserDTO buggedInsertUser(
+            @RequestParam(name="name") String name, @RequestParam(name="email") String email,
+            @RequestParam(name="reviewIds") List<String> reviewIds, @RequestParam(name="watchItemIds") List<String> watchItemIds
+    ) {
+        return userService.buggedInsertUser(name, email, reviewIds, watchItemIds);
     }
 
 }

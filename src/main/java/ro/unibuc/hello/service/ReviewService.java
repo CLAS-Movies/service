@@ -43,7 +43,7 @@ public class ReviewService {
                                   String userId) {
         ReviewEntity review =new ReviewEntity(comment,score);
 
-        if(!movieId.isEmpty()) {
+        if(!movieId.isEmpty() && movieId != null) {
             MovieEntity movie = movieRepository.findById(String.valueOf(new ObjectId(movieId))).orElse(null);
 
             review.setMovie(movie);
@@ -51,7 +51,7 @@ public class ReviewService {
         else
             return null;
 
-        if(!userId.isEmpty()) {
+        if(!userId.isEmpty() && userId != null) {
             UserEntity user = userRepository.findById(String.valueOf(new ObjectId(userId))).orElse(null);
 
             review.setUser(user);
@@ -75,14 +75,14 @@ public class ReviewService {
             if (score != null)
                 review.setScore(score);
 
-            if(!movieId.isEmpty()) {
+            if(!movieId.isEmpty() && movieId != null) {
                 MovieEntity movie = movieRepository.findById(String.valueOf(new ObjectId(movieId))).orElse(null);
 
                 if(movie != null)
                     review.setMovie(movie);
             }
 
-            if(!userId.isEmpty()) {
+            if(!userId.isEmpty() && userId != null) {
                 UserEntity user= userRepository.findById(String.valueOf(new ObjectId(userId))).orElse(null);
 
                 if(user != null)
